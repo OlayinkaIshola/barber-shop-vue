@@ -500,14 +500,57 @@ onMounted(() => {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .booking-summary {
     position: static;
   }
-  
+
   .form-navigation {
     flex-direction: column;
     gap: var(--spacing-md);
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+  }
+
+  .time-slot {
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .booking-header h1 {
+    font-size: 2rem;
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .booking-summary {
+    padding: var(--spacing-lg);
+  }
+
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-navigation .btn {
+    width: 100%;
   }
 }
 </style>

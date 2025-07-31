@@ -1,5 +1,8 @@
 <template>
   <div class="payment">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="payment-container">
       <div class="payment-header">
         <h1>Complete Your Payment</h1>
@@ -118,6 +121,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 
@@ -195,7 +199,10 @@ onMounted(() => {
   min-height: 100vh;
   background: var(--bg-primary);
   padding: 100px var(--spacing-lg) var(--spacing-2xl);
+  position: relative;
 }
+
+
 
 .payment-container {
   max-width: 600px;

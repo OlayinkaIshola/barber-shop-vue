@@ -14,6 +14,11 @@ import AdminDashboard from '../views/AdminDashboard.vue'
 import CustomerDashboard from '../views/CustomerDashboard.vue'
 import BookingHistory from '../views/BookingHistory.vue'
 import Reviews from '../views/Reviews.vue'
+import Contact from '../views/Contact.vue'
+import About from '../views/About.vue'
+import Profile from '../views/Profile.vue'
+import Privacy from '../views/Privacy.vue'
+import Terms from '../views/Terms.vue'
 
 // Frontend-only route guard function (simplified)
 const requireAuth = (to, from, next) => {
@@ -76,6 +81,8 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/registration-success', component: RegistrationSuccess },
   { path: '/login', component: Login },
+  { path: '/barber-login', component: () => import('../views/BarberLogin.vue') },
+  { path: '/barber-dashboard', component: () => import('../views/BarberDashboard.vue'), beforeEnter: requireBarber },
   { path: '/forgot-password', component: ForgotPassword },
   {
     path: '/employee-dashboard',
@@ -100,6 +107,31 @@ const routes = [
   {
     path: '/reviews',
     component: Reviews
+  },
+  {
+    path: '/blog',
+    component: () => import('../views/Blog.vue')
+  },
+  {
+    path: '/contact',
+    component: Contact
+  },
+  {
+    path: '/about',
+    component: About
+  },
+  {
+    path: '/profile',
+    component: Profile,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/privacy',
+    component: Privacy
+  },
+  {
+    path: '/terms',
+    component: Terms
   }
 ]
 

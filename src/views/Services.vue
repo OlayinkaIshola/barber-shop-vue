@@ -13,31 +13,73 @@
     <!-- Services Grid -->
     <section class="services-section section">
       <div class="container">
-        <div class="services-grid grid grid-2">
-          <div class="service-card card" v-for="service in services" :key="service.id">
+        <div class="services-grid">
+          <div
+            class="service-card"
+            :class="{ 'expanded': expandedService === service.id }"
+            v-for="service in services"
+            :key="service.id"
+          >
             <div class="service-image">
               <img :src="service.image" :alt="service.name" loading="lazy" />
               <div class="service-overlay">
                 <div class="service-price">${{ service.price }}</div>
               </div>
             </div>
+
             <div class="service-content">
               <h3>{{ service.name }}</h3>
-              <p>{{ service.description }}</p>
-              <div class="service-details">
-                <div class="service-duration">
-                  <i class="fas fa-clock"></i>
-                  <span>{{ service.duration }} min</span>
-                </div>
-                <div class="service-rating">
-                  <i class="fas fa-star"></i>
-                  <span>{{ service.rating }}/5</span>
+
+              <div class="service-preview" v-if="expandedService !== service.id">
+                <p class="service-description-short">{{ getShortDescription(service.description) }}</p>
+                <div class="service-meta">
+                  <div class="service-duration">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ service.duration }} min</span>
+                  </div>
+                  <div class="service-rating">
+                    <i class="fas fa-star"></i>
+                    <span>{{ service.rating }}/5</span>
+                  </div>
                 </div>
               </div>
-              <router-link to="/booking" class="btn btn-primary service-btn">
-                Book Now
-                <i class="fas fa-calendar-alt"></i>
-              </router-link>
+
+              <div class="service-expanded" v-if="expandedService === service.id">
+                <p class="service-description-full">{{ service.description }}</p>
+                <div class="service-details-expanded">
+                  <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Duration:</strong> {{ service.duration }} minutes</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-star"></i>
+                    <span><strong>Rating:</strong> {{ service.rating }}/5 ({{ getRandomReviews() }} reviews)</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span><strong>Price:</strong> ${{ service.price }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-cut"></i>
+                    <span><strong>Includes:</strong> {{ getServiceIncludes(service.name) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="service-actions">
+                <button
+                  @click="toggleService(service.id)"
+                  class="btn btn-outline read-more-btn"
+                >
+                  {{ expandedService === service.id ? 'Read Less' : 'Read More' }}
+                  <i :class="expandedService === service.id ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                </button>
+
+                <router-link to="/booking" class="btn btn-primary service-btn">
+                  Book Now
+                  <i class="fas fa-calendar-alt"></i>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -92,6 +134,37 @@
 
 <script setup>
 import { ref } from 'vue'
+
+// Expanded service state
+const expandedService = ref(null)
+
+// Toggle service expansion
+const toggleService = (serviceId) => {
+  expandedService.value = expandedService.value === serviceId ? null : serviceId
+}
+
+// Get short description for preview
+const getShortDescription = (description) => {
+  return description.length > 60 ? description.substring(0, 60) + '...' : description
+}
+
+// Get random number of reviews for display
+const getRandomReviews = () => {
+  return Math.floor(Math.random() * 50) + 20
+}
+
+// Get service includes based on service name
+const getServiceIncludes = (serviceName) => {
+  const includes = {
+    'Classic Haircut': 'Consultation, wash, cut, style, finishing products',
+    'Beard Trim & Shape': 'Beard analysis, trimming, shaping, moisturizing treatment',
+    'Hot Towel Shave': 'Pre-shave oil, hot towel treatment, shave, aftershave balm',
+    'Hair Wash & Style': 'Deep cleansing shampoo, conditioning, blow dry, styling',
+    'Full Service Package': 'All services combined with premium treatment',
+    'Kids Haircut': 'Patient consultation, gentle cut, fun experience, small gift'
+  }
+  return includes[serviceName] || 'Professional service with premium products'
+}
 
 const services = ref([
   {
@@ -212,16 +285,31 @@ const addons = ref([
 }
 
 .services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: var(--spacing-2xl);
+  margin-top: var(--spacing-2xl);
 }
 
 .service-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all var(--transition-normal);
+  box-shadow: 0 4px 20px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
 }
 
 .service-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.service-card.expanded {
+  min-height: auto;
+  max-height: none;
 }
 
 .service-image {
@@ -258,6 +346,9 @@ const addons = ref([
 
 .service-content {
   padding: var(--spacing-xl);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-content h3 {
@@ -267,19 +358,57 @@ const addons = ref([
   margin-bottom: var(--spacing-md);
 }
 
-.service-content p {
+.service-preview {
+  flex: 1;
+}
+
+.service-description-short {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.service-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.service-expanded {
+  flex: 1;
+}
+
+.service-description-full {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: var(--spacing-lg);
 }
 
-.service-details {
-  display: flex;
-  justify-content: space-between;
+.service-details-expanded {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md) 0;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  color: var(--text-secondary);
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item i {
+  color: var(--accent-primary);
+  width: 20px;
+  text-align: center;
 }
 
 .service-duration,
@@ -295,9 +424,26 @@ const addons = ref([
   color: var(--accent-primary);
 }
 
-.service-btn {
-  width: 100%;
+.service-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: auto;
+}
+
+.read-more-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.service-btn {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
 }
 
 .additional-services {

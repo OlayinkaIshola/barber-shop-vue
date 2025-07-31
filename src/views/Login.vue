@@ -10,32 +10,44 @@
         <form @submit.prevent="handleLogin">
           <div class="form-group">
             <label class="form-label">Email Address</label>
-            <input 
-              type="email" 
-              v-model="loginData.email" 
-              class="form-input" 
-              placeholder="Enter your email"
-              required 
-            />
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input
+                type="email"
+                v-model="loginData.email"
+                :class="['form-input', { 'error': hasFieldError('email') }]"
+                placeholder="Enter your email"
+                @blur="touchField('email')"
+                @input="validateEmailField"
+              />
+            </div>
+            <div v-if="hasFieldError('email') && isFieldTouched('email')" class="error-message">
+              {{ getFieldError('email') }}
+            </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Password</label>
-            <div class="password-input">
-              <input 
-                :type="showPassword ? 'text' : 'password'" 
-                v-model="loginData.password" 
-                class="form-input" 
+            <div class="input-with-icon password-input">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                v-model="loginData.password"
+                :class="['form-input', { 'error': hasFieldError('password') }]"
                 placeholder="Enter your password"
-                required 
+                @blur="touchField('password')"
+                @input="validatePasswordField"
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 class="password-toggle"
                 @click="showPassword = !showPassword"
               >
                 <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
+            </div>
+            <div v-if="hasFieldError('password') && isFieldTouched('password')" class="error-message">
+              {{ getFieldError('password') }}
             </div>
           </div>
 
@@ -50,10 +62,10 @@
             </router-link>
           </div>
 
-          <button type="submit" class="btn btn-primary login-btn" :disabled="isLoading">
-            <span v-if="!isLoading">Sign In</span>
+          <button type="submit" class="btn btn-primary login-btn" :disabled="isSubmitting || hasErrors">
+            <span v-if="!isSubmitting">Sign In</span>
             <span v-else>Signing In...</span>
-            <i class="fas fa-arrow-right" v-if="!isLoading"></i>
+            <i class="fas fa-arrow-right" v-if="!isSubmitting"></i>
             <i class="fas fa-spinner fa-spin" v-else></i>
           </button>
         </form>
@@ -82,8 +94,12 @@
         </div>
 
         <div class="form-footer">
-          <p>Don't have an account? 
+          <p>Don't have an account?
             <router-link to="/register" class="register-link">Sign up here</router-link>
+          </p>
+          <p class="staff-login">
+            Staff member?
+            <router-link to="/barber-login" class="staff-link">Access Staff Portal</router-link>
           </p>
         </div>
       </div>
@@ -102,43 +118,83 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useFormValidation } from '../composables/useFormValidation'
+import { useErrorHandler } from '../composables/useErrorHandler'
 
 const router = useRouter()
+const {
+  errors,
+  touched,
+  isSubmitting,
+  validateField,
+  touchField,
+  getFieldError,
+  hasFieldError,
+  isFieldTouched,
+  handleSubmit,
+  commonRules
+} = useFormValidation()
 
-const loginData = ref({
+const { showSuccessToast, showErrorToast } = useErrorHandler()
+
+const loginData = reactive({
   email: '',
   password: ''
 })
 
 const showPassword = ref(false)
 const rememberMe = ref(false)
-const isLoading = ref(false)
+
+// Validation rules
+const validationRules = {
+  email: commonRules.email,
+  password: commonRules.required
+}
+
+// Field validation methods
+const validateEmailField = () => {
+  validateField('email', loginData.email, validationRules.email, loginData)
+}
+
+const validatePasswordField = () => {
+  validateField('password', loginData.password, validationRules.password, loginData)
+}
 
 const handleLogin = async () => {
-  isLoading.value = true
-  
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  
-  // Frontend-only login simulation
-  const userData = {
-    id: 1,
-    name: 'John Doe',
-    email: loginData.value.email,
-    role: 'customer'
+  const result = await handleSubmit(loginData, validationRules, async (formData) => {
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      // Frontend-only login simulation
+      const userData = {
+        id: 1,
+        name: 'John Doe',
+        email: formData.email,
+        role: 'customer'
+      }
+
+      // Store user data in localStorage
+      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('user', JSON.stringify(userData))
+      localStorage.setItem('token', 'demo-token-' + Date.now())
+
+      showSuccessToast('Login successful! Welcome back.')
+
+      // Redirect to customer dashboard
+      router.push('/customer-dashboard')
+
+    } catch (error) {
+      showErrorToast('Login failed. Please check your credentials.')
+      throw error
+    }
+  })
+
+  if (!result.success && result.errors) {
+    showErrorToast('Please fix the form errors and try again.')
   }
-  
-  // Store user data in localStorage
-  localStorage.setItem('isLoggedIn', 'true')
-  localStorage.setItem('user', JSON.stringify(userData))
-  localStorage.setItem('token', 'demo-token-' + Date.now())
-  
-  isLoading.value = false
-  
-  // Redirect to customer dashboard
-  router.push('/customer-dashboard')
 }
 
 const loginAsDemo = async (role) => {
@@ -417,6 +473,81 @@ const loginAsDemo = async (role) => {
   margin-bottom: var(--spacing-sm);
 }
 
+/* Input with icons */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  color: var(--text-secondary);
+  z-index: 1;
+  pointer-events: none;
+  transition: color var(--transition-normal);
+}
+
+.input-with-icon .form-input {
+  padding-left: calc(var(--spacing-md) + 20px + var(--spacing-md));
+}
+
+.input-with-icon .form-input:focus + .input-icon,
+.input-with-icon .form-input:not(:placeholder-shown) + .input-icon {
+  color: var(--accent-primary);
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input .form-input {
+  padding-right: 50px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--spacing-md);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+  z-index: 2;
+}
+
+.password-toggle:hover {
+  color: var(--accent-primary);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* Error styles */
+.form-input.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.input-with-icon .form-input.error + .input-icon {
+  color: #e74c3c;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.error-message::before {
+  content: '⚠';
+  font-size: 0.75rem;
+}
+
 .overlay-content p {
   font-size: 1.1rem;
   opacity: 0.9;
@@ -438,5 +569,34 @@ const loginAsDemo = async (role) => {
     gap: var(--spacing-md);
     align-items: flex-start;
   }
+}
+
+/* Additional styles for staff login link */
+.register-link,
+.staff-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-normal);
+}
+
+.register-link:hover,
+.staff-link:hover {
+  color: var(--accent-secondary);
+  text-decoration: underline;
+}
+
+.staff-login {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.staff-link {
+  color: #e67e22;
+}
+
+.staff-link:hover {
+  color: #d35400;
 }
 </style>

@@ -1,0 +1,277 @@
+/* Social Media Brand Colors */
+
+/* Instagram */
+.social-link.instagram,
+.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white !important;
+}
+
+.social-link.instagram:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(240, 148, 51, 0.4);
+}
+
+/* Facebook */
+.social-link.facebook,
+.facebook {
+  background: #1877f2;
+  color: white !important;
+}
+
+.social-link.facebook:hover {
+  background: #166fe5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+}
+
+/* Twitter */
+.social-link.twitter,
+.twitter {
+  background: #1da1f2;
+  color: white !important;
+}
+
+.social-link.twitter:hover {
+  background: #1a91da;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4);
+}
+
+/* LinkedIn */
+.social-link.linkedin,
+.linkedin {
+  background: #0077b5;
+  color: white !important;
+}
+
+.social-link.linkedin:hover {
+  background: #006ba1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 119, 181, 0.4);
+}
+
+/* YouTube */
+.social-link.youtube,
+.youtube {
+  background: #ff0000;
+  color: white !important;
+}
+
+.social-link.youtube:hover {
+  background: #e60000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+/* TikTok */
+.social-link.tiktok,
+.tiktok {
+  background: linear-gradient(45deg, #ff0050, #00f2ea);
+  color: white !important;
+}
+
+.social-link.tiktok:hover {
+  background: linear-gradient(45deg, #e6004a, #00d9d1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 0, 80, 0.4);
+}
+
+/* WhatsApp */
+.social-link.whatsapp,
+.whatsapp {
+  background: #25d366;
+  color: white !important;
+}
+
+.social-link.whatsapp:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+/* Snapchat */
+.social-link.snapchat,
+.snapchat {
+  background: #fffc00;
+  color: black !important;
+}
+
+.social-link.snapchat:hover {
+  background: #f0e800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 252, 0, 0.4);
+}
+
+/* Pinterest */
+.social-link.pinterest,
+.pinterest {
+  background: #bd081c;
+  color: white !important;
+}
+
+.social-link.pinterest:hover {
+  background: #a50719;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(189, 8, 28, 0.4);
+}
+
+/* Discord */
+.social-link.discord,
+.discord {
+  background: #5865f2;
+  color: white !important;
+}
+
+.social-link.discord:hover {
+  background: #4752c4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+}
+
+/* Telegram */
+.social-link.telegram,
+.telegram {
+  background: #0088cc;
+  color: white !important;
+}
+
+.social-link.telegram:hover {
+  background: #007bb5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+}
+
+/* General social link styling */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin: 0 5px;
+  font-size: 1.2rem;
+}
+
+.social-link i {
+  color: inherit;
+}
+
+/* Social links container */
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .social-link {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-link {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+    margin: 0 3px;
+  }
+}
+
+/* Animation for social links */
+@keyframes socialPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.social-link:active {
+  animation: socialPulse 0.3s ease;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .social-link.snapchat {
+  color: #1a1a1a !important;
+}
+
+/* Footer social links styling */
+.footer .social-links {
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+.footer .social-link {
+  width: 45px;
+  height: 45px;
+  font-size: 1.3rem;
+}
+
+/* Contact page social links */
+.contact .social-links {
+  justify-content: flex-start;
+}
+
+/* About page social links */
+.about .social-links {
+  justify-content: center;
+  margin: var(--spacing-lg) 0;
+}
+
+/* Team member social links */
+.stylist-overlay .social-links {
+  padding: var(--spacing-md);
+}
+
+.stylist-overlay .social-link {
+  width: 35px;
+  height: 35px;
+  font-size: 1rem;
+}
+
+/* Hover effects for better accessibility */
+.social-link:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.social-link:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .social-link {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .social-link {
+    transition: none;
+  }
+  
+  .social-link:hover {
+    transform: none;
+  }
+  
+  .social-link:active {
+    animation: none;
+  }
+}

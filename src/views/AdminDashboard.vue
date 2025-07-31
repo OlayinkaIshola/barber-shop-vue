@@ -1,6 +1,68 @@
 <template>
   <div class="admin-dashboard">
-    <div class="dashboard-container">
+    <!-- Dashboard Navigation -->
+    <nav class="dashboard-nav">
+      <div class="nav-brand">
+        <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp"
+             alt="Elite Barber Shop" class="nav-logo" />
+        <span class="nav-title">Admin Portal</span>
+      </div>
+
+      <div class="nav-menu">
+        <a href="#overview" class="nav-link active">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Overview</span>
+        </a>
+        <a href="#appointments" class="nav-link">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Appointments</span>
+        </a>
+        <a href="#employees" class="nav-link">
+          <i class="fas fa-user-tie"></i>
+          <span>Employees</span>
+        </a>
+        <a href="#customers" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Customers</span>
+        </a>
+        <a href="#services" class="nav-link">
+          <i class="fas fa-cut"></i>
+          <span>Services</span>
+        </a>
+        <a href="#reports" class="nav-link">
+          <i class="fas fa-chart-bar"></i>
+          <span>Reports</span>
+        </a>
+        <a href="#settings" class="nav-link">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+      </div>
+
+      <div class="nav-profile">
+        <div class="profile-info">
+          <img src="@/assets/images/34428106.jpg" alt="Profile" class="profile-avatar" />
+          <div class="profile-details">
+            <span class="profile-name">Admin User</span>
+            <span class="profile-role">System Administrator</span>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button @click="toggleTheme" class="action-btn" :title="`Switch to ${isDark ? 'light' : 'dark'} mode`">
+            <i :class="themeIcon"></i>
+          </button>
+          <router-link to="/profile" class="action-btn">
+            <i class="fas fa-user-cog"></i>
+          </router-link>
+          <button @click="logout" class="action-btn logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
       <!-- Header -->
       <div class="dashboard-header">
         <div class="welcome-section">
@@ -12,9 +74,9 @@
             <i class="fas fa-plus"></i>
             Add Employee
           </button>
-          <button @click="logout" class="btn btn-secondary">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
+          <button class="btn btn-outline">
+            <i class="fas fa-download"></i>
+            Export Data
           </button>
         </div>
       </div>
@@ -139,15 +201,17 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
+const { isDark, themeIcon, toggleTheme } = useTheme()
 
 const stats = ref({
   todayAppointments: 24,
@@ -242,9 +306,142 @@ onMounted(() => {
 
 <style scoped>
 .admin-dashboard {
+  display: flex;
   min-height: 100vh;
   background: var(--bg-primary);
-  padding: 100px var(--spacing-lg) var(--spacing-2xl);
+}
+
+/* Dashboard Navigation */
+.dashboard-nav {
+  width: 280px;
+  background: var(--card-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand {
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nav-menu {
+  flex: 1;
+  padding: var(--spacing-lg) 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-xl);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  border-left: 3px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--accent-primary);
+  background: rgba(212, 175, 55, 0.1);
+  border-left-color: var(--accent-primary);
+}
+
+.nav-link i {
+  width: 20px;
+  text-align: center;
+}
+
+.nav-profile {
+  padding: var(--spacing-xl);
+  border-top: 1px solid var(--border-color);
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.profile-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+}
+
+.profile-role {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.profile-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.action-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+.logout-btn:hover {
+  background: #e74c3c;
+  border-color: #e74c3c;
+}
+
+/* Main Content */
+.dashboard-main {
+  flex: 1;
+  margin-left: 280px;
+  padding: var(--spacing-2xl);
+  overflow-y: auto;
 }
 
 .dashboard-container {

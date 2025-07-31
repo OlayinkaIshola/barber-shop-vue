@@ -1,5 +1,8 @@
 <template>
   <div class="forgot-password">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="forgot-container">
       <div class="forgot-form">
         <div class="form-header">
@@ -50,6 +53,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const email = ref('')
 const isLoading = ref(false)

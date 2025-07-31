@@ -13,47 +13,101 @@
     <!-- Team Section -->
     <section class="team-section section">
       <div class="container">
-        <div class="team-grid grid grid-3">
-          <div class="stylist-card card" v-for="stylist in stylists" :key="stylist.id">
+        <div class="team-grid">
+          <div
+            class="stylist-card"
+            :class="{ 'expanded': expandedStylist === stylist.id }"
+            v-for="stylist in stylists"
+            :key="stylist.id"
+          >
             <div class="stylist-image">
               <img :src="stylist.image" :alt="stylist.name" loading="lazy" />
               <div class="stylist-overlay">
                 <div class="social-links">
-                  <a href="#" class="social-link" v-if="stylist.instagram">
+                  <a href="#" class="social-link instagram" v-if="stylist.instagram">
                     <i class="fab fa-instagram"></i>
                   </a>
-                  <a href="#" class="social-link" v-if="stylist.facebook">
+                  <a href="#" class="social-link facebook" v-if="stylist.facebook">
                     <i class="fab fa-facebook"></i>
+                  </a>
+                  <a href="#" class="social-link twitter" v-if="stylist.twitter">
+                    <i class="fab fa-twitter"></i>
                   </a>
                 </div>
               </div>
             </div>
+
             <div class="stylist-content">
               <h3>{{ stylist.name }}</h3>
               <p class="stylist-title">{{ stylist.title }}</p>
-              <p class="stylist-bio">{{ stylist.bio }}</p>
-              <div class="stylist-stats">
-                <div class="stat">
-                  <span class="stat-number">{{ stylist.experience }}</span>
-                  <span class="stat-label">Years Experience</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-number">{{ stylist.rating }}</span>
-                  <span class="stat-label">Rating</span>
-                </div>
-              </div>
-              <div class="stylist-specialties">
-                <h4>Specialties:</h4>
-                <div class="specialty-tags">
-                  <span class="specialty-tag" v-for="specialty in stylist.specialties" :key="specialty">
-                    {{ specialty }}
-                  </span>
+
+              <div class="stylist-preview" v-if="expandedStylist !== stylist.id">
+                <p class="stylist-bio-short">{{ getShortBio(stylist.bio) }}</p>
+                <div class="stylist-stats-compact">
+                  <div class="stat-compact">
+                    <i class="fas fa-star"></i>
+                    <span>{{ stylist.rating }}/5</span>
+                  </div>
+                  <div class="stat-compact">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ stylist.experience }}+ years</span>
+                  </div>
                 </div>
               </div>
-              <router-link to="/booking" class="btn btn-primary stylist-btn">
-                Book with {{ stylist.name.split(' ')[0] }}
-                <i class="fas fa-calendar-alt"></i>
-              </router-link>
+
+              <div class="stylist-expanded" v-if="expandedStylist === stylist.id">
+                <p class="stylist-bio-full">{{ stylist.bio }}</p>
+
+                <div class="stylist-stats">
+                  <div class="stat">
+                    <span class="stat-number">{{ stylist.experience }}</span>
+                    <span class="stat-label">Years Experience</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-number">{{ stylist.rating }}</span>
+                    <span class="stat-label">Rating</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-number">{{ getRandomClients() }}</span>
+                    <span class="stat-label">Happy Clients</span>
+                  </div>
+                </div>
+
+                <div class="stylist-specialties">
+                  <h4>Specialties:</h4>
+                  <div class="specialty-tags">
+                    <span class="specialty-tag" v-for="specialty in stylist.specialties" :key="specialty">
+                      {{ specialty }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="stylist-details">
+                  <div class="detail-section">
+                    <h5><i class="fas fa-graduation-cap"></i> Education & Certifications</h5>
+                    <p>{{ getStylistEducation(stylist.name) }}</p>
+                  </div>
+                  <div class="detail-section">
+                    <h5><i class="fas fa-award"></i> Achievements</h5>
+                    <p>{{ getStylistAchievements(stylist.name) }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stylist-actions">
+                <button
+                  @click="toggleStylist(stylist.id)"
+                  class="btn btn-outline read-more-btn"
+                >
+                  {{ expandedStylist === stylist.id ? 'Read Less' : 'Read More' }}
+                  <i :class="expandedStylist === stylist.id ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                </button>
+
+                <router-link to="/booking" class="btn btn-primary stylist-btn">
+                  Book with {{ stylist.name.split(' ')[0] }}
+                  <i class="fas fa-calendar-alt"></i>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -104,6 +158,50 @@
 
 <script setup>
 import { ref } from 'vue'
+
+// Expanded stylist state
+const expandedStylist = ref(null)
+
+// Toggle stylist expansion
+const toggleStylist = (stylistId) => {
+  expandedStylist.value = expandedStylist.value === stylistId ? null : stylistId
+}
+
+// Get short bio for preview
+const getShortBio = (bio) => {
+  return bio.length > 80 ? bio.substring(0, 80) + '...' : bio
+}
+
+// Get random number of clients for display
+const getRandomClients = () => {
+  return Math.floor(Math.random() * 500) + 200
+}
+
+// Get stylist education based on name
+const getStylistEducation = (name) => {
+  const educations = {
+    'Marcus Johnson': 'Certified Master Barber, Aveda Institute Graduate, Advanced Razor Techniques Certification',
+    'Sarah Williams': 'Licensed Cosmetologist, Redken Color Specialist, Balayage Expert Certification',
+    'David Chen': 'Master Barber License, Traditional Shaving Academy Graduate, Beard Styling Specialist',
+    'Isabella Rodriguez': 'Advanced Cosmetology License, Olaplex Treatment Specialist, Bridal Hair Expert',
+    'James Thompson': 'Master Barber Certification, Fade Specialist Training, Men\'s Grooming Expert',
+    'Emma Davis': 'Licensed Hair Stylist, Keratin Treatment Specialist, Color Correction Expert'
+  }
+  return educations[name] || 'Licensed Professional with Advanced Training'
+}
+
+// Get stylist achievements based on name
+const getStylistAchievements = (name) => {
+  const achievements = {
+    'Marcus Johnson': 'Best Barber Award 2023, Featured in Men\'s Style Magazine, 15+ Years Excellence',
+    'Sarah Williams': 'Top Colorist Award, Instagram Influencer (50K+ followers), Bridal Specialist of the Year',
+    'David Chen': 'Traditional Barber Excellence Award, Beard Competition Judge, Master Craftsman',
+    'Isabella Rodriguez': 'Wedding Hair Specialist Award, Featured in Bridal Magazine, Celebrity Stylist',
+    'James Thompson': 'Men\'s Grooming Expert, Fade Master Champion, Social Media Influencer',
+    'Emma Davis': 'Color Correction Specialist, Advanced Techniques Trainer, Customer Choice Award'
+  }
+  return achievements[name] || 'Multiple Awards and Recognition in Professional Excellence'
+}
 
 const stylists = ref([
   {
@@ -211,16 +309,30 @@ const stylists = ref([
 }
 
 .team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-2xl);
+  margin-top: var(--spacing-2xl);
 }
 
 .stylist-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all var(--transition-normal);
+  box-shadow: 0 4px 20px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
 }
 
 .stylist-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.stylist-card.expanded {
+  min-height: auto;
 }
 
 .stylist-image {

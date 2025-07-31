@@ -32,11 +32,17 @@
           </div>
         </div>
         <div class="hero-image">
-          <div class="image-container">
-            <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp" 
-                 alt="Professional Barber Service" 
-                 loading="lazy" />
-            <div class="image-overlay"></div>
+          <div class="image-container animated-float">
+            <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp"
+                 alt="Professional Barber Service"
+                 loading="lazy"
+                 class="animated-image" />
+            <div class="image-overlay animated-pulse"></div>
+            <div class="decorative-elements">
+              <div class="element element-1"></div>
+              <div class="element element-2"></div>
+              <div class="element element-3"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -263,11 +269,17 @@ onMounted(() => {
   width: 100%;
 }
 
-.image-container img {
+.image-container.animated-float {
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+.animated-image {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
   box-shadow: 0 20px 40px var(--shadow-color);
+  animation: subtleGlow 4s ease-in-out infinite alternate;
+  transition: all 0.3s ease;
 }
 
 .image-overlay {
@@ -278,6 +290,120 @@ onMounted(() => {
   bottom: 0;
   background: linear-gradient(45deg, transparent 0%, rgba(212, 175, 55, 0.1) 100%);
   border-radius: var(--radius-lg);
+}
+
+.image-overlay.animated-pulse {
+  animation: overlayPulse 3s ease-in-out infinite;
+}
+
+.decorative-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.element {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  opacity: 0.3;
+}
+
+.element-1 {
+  width: 20px;
+  height: 20px;
+  top: 10%;
+  right: 10%;
+  animation: floatElement1 8s ease-in-out infinite;
+}
+
+.element-2 {
+  width: 15px;
+  height: 15px;
+  bottom: 20%;
+  left: 15%;
+  animation: floatElement2 6s ease-in-out infinite reverse;
+}
+
+.element-3 {
+  width: 25px;
+  height: 25px;
+  top: 60%;
+  right: 20%;
+  animation: floatElement3 10s ease-in-out infinite;
+}
+
+/* Animation keyframes */
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-15px) rotate(-1deg);
+  }
+}
+
+@keyframes subtleGlow {
+  0% {
+    box-shadow: 0 20px 40px var(--shadow-color);
+  }
+  100% {
+    box-shadow: 0 25px 50px var(--shadow-color), 0 0 30px rgba(212, 175, 55, 0.2);
+  }
+}
+
+@keyframes overlayPulse {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes floatElement1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -15px) scale(1.2);
+  }
+  66% {
+    transform: translate(-5px, -10px) scale(0.8);
+  }
+}
+
+@keyframes floatElement2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-15px, 20px) scale(1.5);
+  }
+}
+
+@keyframes floatElement3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(15px, -10px) scale(0.7) rotate(90deg);
+  }
+  50% {
+    transform: translate(5px, -20px) scale(1.3) rotate(180deg);
+  }
+  75% {
+    transform: translate(-10px, -5px) scale(0.9) rotate(270deg);
+  }
 }
 
 .features {
