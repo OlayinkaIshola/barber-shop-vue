@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="login-container">
       <div class="login-form">
         <div class="form-header">
@@ -122,6 +125,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useErrorHandler } from '../composables/useErrorHandler'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 const {

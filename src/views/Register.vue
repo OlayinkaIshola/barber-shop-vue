@@ -1,5 +1,8 @@
 <template>
   <div class="register">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="register-container">
       <div class="register-form">
         <div class="form-header">
@@ -169,6 +172,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 

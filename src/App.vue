@@ -300,7 +300,7 @@ onUnmounted(() => {
 }
 
 [data-theme="dark"] .navbar {
-  background: rgba(26, 26, 26, 0.95);
+  background: rgba(0, 0, 0, 0.95);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -502,15 +502,16 @@ html {
   position: fixed;
   top: 0;
   right: -100%;
-  width: 300px;
-  max-width: 80vw;
-  height: 100%;
+  width: 320px;
+  max-width: 85vw;
+  height: 100vh;
   background: var(--card-bg);
   z-index: 1000;
   transition: right 0.3s ease;
-  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+  border-left: 1px solid var(--border-color);
 }
 
 .mobile-nav-menu.active {
@@ -568,6 +569,22 @@ html {
   flex: 1;
   padding: var(--spacing-lg) 0;
   overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+
+.mobile-nav-links::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-nav-links::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mobile-nav-links::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 2px;
 }
 
 .mobile-nav-links a,
@@ -621,10 +638,19 @@ html {
 
   .mobile-menu-toggle {
     display: flex;
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-md);
+    transform: translateY(-50%);
   }
 
   .navbar {
     padding: var(--spacing-sm) var(--spacing-md);
+    position: relative;
+  }
+
+  .nav-left {
+    flex: 1;
   }
 
   .brand-text {

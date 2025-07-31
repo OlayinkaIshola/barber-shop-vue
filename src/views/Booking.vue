@@ -1,5 +1,8 @@
 <template>
   <div class="booking">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="booking-container">
       <div class="booking-header">
         <h1>Book Your Appointment</h1>
@@ -195,6 +198,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 
