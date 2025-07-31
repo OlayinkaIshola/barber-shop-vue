@@ -1,5 +1,8 @@
 <template>
   <div class="booking-history-page">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="history-container">
       <!-- Header -->
       <div class="history-header">
@@ -251,6 +254,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 const toast = useToast()

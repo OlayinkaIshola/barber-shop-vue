@@ -95,8 +95,8 @@
         </div>
         <div class="addon-services grid grid-4">
           <div class="addon-card card" v-for="addon in addons" :key="addon.id">
-            <div class="addon-icon">
-              <i :class="addon.icon"></i>
+            <div class="addon-image">
+              <img :src="addon.image" :alt="addon.name" loading="lazy" />
             </div>
             <h4>{{ addon.name }}</h4>
             <p class="addon-price">${{ addon.price }}</p>
@@ -174,7 +174,7 @@ const services = ref([
     price: 35,
     duration: 45,
     rating: 4.8,
-    image: '/src/assets/images/34428106.jpg'
+    image: '/src/assets/images/classic-cut.jpg'
   },
   {
     id: 2,
@@ -183,7 +183,7 @@ const services = ref([
     price: 25,
     duration: 30,
     rating: 4.9,
-    image: '/src/assets/images/37603.jpg'
+    image: '/src/assets/images/beard.jpg'
   },
   {
     id: 3,
@@ -192,7 +192,7 @@ const services = ref([
     price: 45,
     duration: 60,
     rating: 5.0,
-    image: '/src/assets/images/900.jpg'
+    image: '/src/assets/images/Hot-Towel-Shave.png'
   },
   {
     id: 4,
@@ -201,7 +201,7 @@ const services = ref([
     price: 30,
     duration: 40,
     rating: 4.7,
-    image: '/src/assets/images/91d6037c183ccc9644cdd59a70857524.jpg'
+    image: '/src/assets/images/hairwash.avif'
   },
   {
     id: 5,
@@ -210,7 +210,7 @@ const services = ref([
     price: 85,
     duration: 90,
     rating: 4.9,
-    image: '/src/assets/images/AE-Barber-Shop-Baldwin-5.jpg'
+    image: '/src/assets/images/full-package.jpg'
   },
   {
     id: 6,
@@ -219,7 +219,7 @@ const services = ref([
     price: 20,
     duration: 30,
     rating: 4.8,
-    image: '/src/assets/images/About-Us.jpg'
+    image: '/src/assets/images/kids.webp'
   }
 ])
 
@@ -229,28 +229,28 @@ const addons = ref([
     name: 'Hair Wash',
     price: 10,
     description: 'Premium shampoo and conditioning treatment',
-    icon: 'fas fa-shower'
+    image: '/src/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif'
   },
   {
     id: 2,
     name: 'Scalp Massage',
     price: 15,
     description: 'Relaxing scalp massage with essential oils',
-    icon: 'fas fa-spa'
+    image: '/src/assets/images/man-makes-stowage-barbershop_1311477-31668.avif'
   },
   {
     id: 3,
     name: 'Eyebrow Trim',
     price: 8,
     description: 'Professional eyebrow shaping and trimming',
-    icon: 'fas fa-eye'
+    image: '/src/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif'
   },
   {
     id: 4,
     name: 'Mustache Trim',
     price: 12,
     description: 'Precise mustache trimming and styling',
-    icon: 'fas fa-cut'
+    image: '/src/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp'
   }
 ])
 </script>
@@ -459,10 +459,23 @@ const addons = ref([
   padding: var(--spacing-xl);
 }
 
-.addon-icon {
-  font-size: 2.5rem;
-  color: var(--accent-primary);
+.addon-image {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
   margin-bottom: var(--spacing-lg);
+}
+
+.addon-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.addon-card:hover .addon-image img {
+  transform: scale(1.05);
 }
 
 .addon-card h4 {

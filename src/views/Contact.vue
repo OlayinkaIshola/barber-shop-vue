@@ -146,17 +146,21 @@
               <div>
                 <h4>Business Hours</h4>
                 <div class="hours-list">
-                  <div class="hours-item">
-                    <span>Monday - Friday</span>
-                    <span>9:00 AM - 8:00 PM</span>
+                  <div class="hours-row">
+                    <div class="hours-item">
+                      <span class="day">Monday - Friday</span>
+                      <span class="time">9:00 AM - 8:00 PM</span>
+                    </div>
+                    <div class="hours-item">
+                      <span class="day">Saturday</span>
+                      <span class="time">9:00 AM - 7:00 PM</span>
+                    </div>
                   </div>
-                  <div class="hours-item">
-                    <span>Saturday</span>
-                    <span>9:00 AM - 7:00 PM</span>
-                  </div>
-                  <div class="hours-item">
-                    <span>Sunday</span>
-                    <span>10:00 AM - 6:00 PM</span>
+                  <div class="hours-row">
+                    <div class="hours-item">
+                      <span class="day">Sunday</span>
+                      <span class="time">10:00 AM - 6:00 PM</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -169,19 +173,15 @@
             <div class="social-links">
               <a href="#" class="social-link facebook">
                 <i class="fab fa-facebook-f"></i>
-                <span>Facebook</span>
               </a>
               <a href="#" class="social-link instagram">
                 <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
               </a>
               <a href="#" class="social-link twitter">
                 <i class="fab fa-twitter"></i>
-                <span>Twitter</span>
               </a>
               <a href="#" class="social-link youtube">
                 <i class="fab fa-youtube"></i>
-                <span>YouTube</span>
               </a>
             </div>
           </div>
@@ -489,13 +489,30 @@ const submitForm = async () => {
 .hours-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
+}
+
+.hours-row {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
 }
 
 .hours-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 150px;
+}
+
+.hours-item .day {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hours-item .time {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .social-section {
@@ -510,30 +527,49 @@ const submitForm = async () => {
 }
 
 .social-links {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: var(--spacing-md);
+  justify-content: flex-start;
 }
 
 .social-link {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   text-decoration: none;
-  color: var(--text-primary);
   transition: all var(--transition-normal);
 }
 
+.social-link.facebook {
+  background: #1877f2;
+  color: white;
+}
+
+.social-link.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white;
+}
+
+.social-link.twitter {
+  background: #1da1f2;
+  color: white;
+}
+
+.social-link.youtube {
+  background: #ff0000;
+  color: white;
+}
+
 .social-link:hover {
-  background: var(--button-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .social-link i {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .quick-actions h3 {
@@ -597,7 +633,13 @@ const submitForm = async () => {
   }
   
   .social-links {
-    grid-template-columns: 1fr;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hours-row {
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 }
 </style>

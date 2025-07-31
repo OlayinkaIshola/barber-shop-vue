@@ -1,5 +1,8 @@
 <template>
   <div class="privacy-page">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="privacy-container">
       <!-- Header -->
       <div class="privacy-header">
@@ -274,6 +277,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const lastUpdated = ref('July 31, 2024')
 </script>

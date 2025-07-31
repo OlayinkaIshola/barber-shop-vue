@@ -1,5 +1,8 @@
 <template>
   <div class="registration-success">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="success-container">
       <div class="success-content">
         <div class="success-icon">
@@ -103,6 +106,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
 const registrationData = ref(null)

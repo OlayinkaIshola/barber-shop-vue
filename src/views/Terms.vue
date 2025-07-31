@@ -1,5 +1,8 @@
 <template>
   <div class="terms-page">
+    <!-- Navigation Controls -->
+    <NavigationControls />
+
     <div class="terms-container">
       <!-- Header -->
       <div class="terms-header">
@@ -325,6 +328,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import NavigationControls from '../components/NavigationControls.vue'
 
 const lastUpdated = ref('July 31, 2024')
 </script>
