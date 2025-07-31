@@ -147,10 +147,24 @@ For testing purposes, use these demo accounts:
 
 The application can be deployed to any static hosting service:
 
+### Render (Recommended)
+1. Connect your GitHub repository to Render
+2. Use the included `render.yaml` configuration file
+3. Render will automatically build and deploy your application
+
+### Other Platforms
 - **Netlify**: Connect your GitHub repository for automatic deployments
 - **Vercel**: Import project and deploy with zero configuration
 - **GitHub Pages**: Use GitHub Actions for automated deployment
 - **Firebase Hosting**: Deploy with Firebase CLI
+
+## ✨ Latest Updates
+
+- ✅ **Mobile Navigation**: Responsive hamburger menu with smooth slide-out animation
+- ✅ **Blog Page**: Comprehensive blog with unused images and category filtering
+- ✅ **Mobile Optimization**: Enhanced mobile views for all screens
+- ✅ **Bug Fixes**: Resolved compilation errors and missing image references
+- ✅ **UI/UX Improvements**: Professional animations and responsive design
 
 ## 🤝 Contributing
 
