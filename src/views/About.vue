@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="hero-image">
-        <img src="@/assets/images/AE-Barber-Shop-Baldwin-5.jpg" alt="Elite Barber Shop Interior" />
+        <img :src="require('@/assets/images/About-Us.jpg')" alt="Elite Barber Shop Interior" />
         <div class="hero-image-overlay">
           <div class="overlay-content">
             <i class="fas fa-cut"></i>
@@ -54,7 +54,7 @@
             </p>
           </div>
           <div class="story-image">
-            <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp" alt="Marcus Johnson - Founder" />
+            <img :src="require('@/assets/images/marcus.webp')" alt="Marcus Johnson - Founder" />
             <div class="image-caption">
               <h4>Marcus Johnson</h4>
               <p>Founder & Master Barber</p>
@@ -71,7 +71,7 @@
         <div class="values-grid">
           <div class="value-card">
             <div class="value-image">
-              <img src="@/assets/images/34428106.jpg" alt="Excellence in Service" />
+              <img :src="require('@/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif')" alt="Excellence in Service" />
               <div class="value-icon">
                 <i class="fas fa-star"></i>
               </div>
@@ -83,7 +83,7 @@
           </div>
           <div class="value-card">
             <div class="value-image">
-              <img src="@/assets/images/AE-Barber-Shop-Baldwin-5.jpg" alt="Integrity and Trust" />
+              <img :src="require('@/assets/images/inside barber shop.jpg')" alt="Integrity and Trust" />
               <div class="value-icon">
                 <i class="fas fa-handshake"></i>
               </div>
@@ -95,7 +95,7 @@
           </div>
           <div class="value-card">
             <div class="value-image">
-              <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp" alt="Community Connection" />
+              <img :src="require('@/assets/images/corner-barber-shop.jpg')" alt="Community Connection" />
               <div class="value-icon">
                 <i class="fas fa-users"></i>
               </div>
@@ -107,7 +107,7 @@
           </div>
           <div class="value-card">
             <div class="value-image">
-              <img src="@/assets/images/34428106.jpg" alt="Master Craftsmanship" />
+              <img :src="require('@/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif')" alt="Master Craftsmanship" />
               <div class="value-icon">
                 <i class="fas fa-graduation-cap"></i>
               </div>
@@ -128,7 +128,7 @@
         <div class="team-grid">
           <div class="team-member">
             <div class="member-image">
-              <img src="/src/assets/images/marcus-johnson.jpg" alt="Marcus Johnson" />
+              <img :src="require('@/assets/images/marcus.webp')" alt="Marcus Johnson" />
             </div>
             <div class="member-info">
               <h3>Marcus Johnson</h3>
@@ -148,7 +148,7 @@
 
           <div class="team-member">
             <div class="member-image">
-              <img src="/src/assets/images/david-rodriguez.jpg" alt="David Rodriguez" />
+              <img :src="require('@/assets/images/david.webp')" alt="David Rodriguez" />
             </div>
             <div class="member-info">
               <h3>David Rodriguez</h3>
@@ -168,7 +168,7 @@
 
           <div class="team-member">
             <div class="member-image">
-              <img src="/src/assets/images/anthony-williams.jpg" alt="Anthony Williams" />
+              <img :src="require('@/assets/images/antony.jpg')" alt="Anthony Williams" />
             </div>
             <div class="member-info">
               <h3>Anthony Williams</h3>
@@ -235,7 +235,7 @@
             </ul>
           </div>
           <div class="experience-image">
-            <img src="/src/assets/images/barber-at-work.jpg" alt="Barber at work" />
+            <img :src="require('@/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp')" alt="Barber at work" />
           </div>
         </div>
       </div>

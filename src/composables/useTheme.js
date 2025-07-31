@@ -18,7 +18,7 @@ export function useTheme() {
   // Update CSS custom properties and body class
   const updateTheme = () => {
     const root = document.documentElement
-    
+
     if (isDark.value) {
       // Dark theme colors
       root.style.setProperty('--bg-primary', '#1a1a1a')
@@ -35,7 +35,9 @@ export function useTheme() {
       root.style.setProperty('--card-bg', 'rgba(45, 45, 45, 0.8)')
       root.style.setProperty('--input-bg', '#2d2d2d')
       root.style.setProperty('--button-hover', 'rgba(212, 175, 55, 0.1)')
-      
+
+      // Set data-theme attribute for CSS selectors
+      root.setAttribute('data-theme', 'dark')
       document.body.classList.add('dark-theme')
       document.body.classList.remove('light-theme')
     } else {
@@ -54,7 +56,9 @@ export function useTheme() {
       root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.9)')
       root.style.setProperty('--input-bg', '#ffffff')
       root.style.setProperty('--button-hover', 'rgba(212, 175, 55, 0.1)')
-      
+
+      // Set data-theme attribute for CSS selectors
+      root.setAttribute('data-theme', 'light')
       document.body.classList.add('light-theme')
       document.body.classList.remove('dark-theme')
     }
@@ -67,7 +71,7 @@ export function useTheme() {
 
   // Computed properties
   const currentTheme = computed(() => isDark.value ? 'dark' : 'light')
-  const themeIcon = computed(() => isDark.value ? 'fas fa-sun' : 'fas fa-moon')
+  const themeIcon = computed(() => isDark.value ? 'fas fa-moon' : 'fas fa-sun')
 
   // Watch for theme changes and save to localStorage
   watch(isDark, (newValue) => {
