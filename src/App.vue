@@ -54,9 +54,6 @@
             <img src="@/assets/images/inside barber shop.jpg" alt="Elite Barber Shop" class="mobile-logo" />
             <span class="mobile-brand-text">Elite Barber Shop</span>
           </div>
-          <button class="mobile-close-btn" @click="closeMobileMenu">
-            <i class="fas fa-times"></i>
-          </button>
         </div>
         <div class="mobile-nav-links">
           <router-link to="/" @click="closeMobileMenu">
@@ -545,25 +542,7 @@ html {
   font-size: 1.1rem;
 }
 
-.mobile-close-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
 
-.mobile-close-btn:hover {
-  background: var(--accent-primary);
-  color: white;
-  border-color: var(--accent-primary);
-}
 
 .mobile-nav-links {
   flex: 1;
@@ -572,6 +551,7 @@ html {
   max-height: calc(100vh - 120px);
   scrollbar-width: thin;
   scrollbar-color: var(--accent-primary) transparent;
+  scroll-behavior: smooth;
 }
 
 .mobile-nav-links::-webkit-scrollbar {
@@ -642,6 +622,7 @@ html {
     top: 50%;
     right: var(--spacing-md);
     transform: translateY(-50%);
+    z-index: 1002;
   }
 
   .navbar {
@@ -651,6 +632,8 @@ html {
 
   .nav-left {
     flex: 1;
+    display: flex;
+    justify-content: flex-start;
   }
 
   .brand-text {

@@ -211,7 +211,7 @@ const stylists = ref([
     bio: 'With over 15 years of experience, Marcus brings traditional barbering techniques with modern styling.',
     experience: 15,
     rating: 4.9,
-    image: '/src/assets/images/marcus.webp',
+    image: require('@/assets/images/marcus.webp'),
     specialties: ['Classic Cuts', 'Beard Styling', 'Hot Towel Shaves'],
     instagram: true,
     facebook: true
@@ -223,7 +223,7 @@ const stylists = ref([
     bio: 'Specializing in modern cuts and beard artistry, David creates contemporary looks that turn heads.',
     experience: 8,
     rating: 4.8,
-    image: '/src/assets/images/david.webp',
+    image: require('@/assets/images/david.webp'),
     specialties: ['Modern Cuts', 'Fade Techniques', 'Beard Art'],
     instagram: true,
     facebook: false
@@ -235,7 +235,7 @@ const stylists = ref([
     bio: 'Known for his precision and attention to detail, Anthony ensures every client leaves looking their best.',
     experience: 6,
     rating: 4.7,
-    image: '/src/assets/images/antony.jpg',
+    image: require('@/assets/images/antony.jpg'),
     specialties: ['Precision Cuts', 'Hair Styling', 'Consultations'],
     instagram: true,
     facebook: true
@@ -247,7 +247,7 @@ const stylists = ref([
     bio: 'Combining traditional techniques with innovative approaches, Michael delivers exceptional results.',
     experience: 5,
     rating: 4.8,
-    image: '/src/assets/images/micheal.webp',
+    image: require('@/assets/images/micheal.webp'),
     specialties: ['Traditional Cuts', 'Mustache Styling', 'Hair Treatments'],
     instagram: false,
     facebook: true
@@ -259,7 +259,7 @@ const stylists = ref([
     bio: 'Fresh talent with a passion for the craft, James brings energy and creativity to every cut.',
     experience: 3,
     rating: 4.6,
-    image: '/src/assets/images/james.jpeg',
+    image: require('@/assets/images/james.jpeg'),
     specialties: ['Trendy Cuts', 'Youth Styles', 'Creative Styling'],
     instagram: true,
     facebook: false
@@ -271,7 +271,7 @@ const stylists = ref([
     bio: 'A true artist with scissors and razor, Robert has been perfecting his craft for over a decade.',
     experience: 12,
     rating: 4.9,
-    image: '/src/assets/images/robert.avif',
+    image: require('@/assets/images/robert.avif'),
     specialties: ['Artistic Cuts', 'Razor Work', 'Vintage Styles'],
     instagram: true,
     facebook: true

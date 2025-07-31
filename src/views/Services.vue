@@ -174,7 +174,7 @@ const services = ref([
     price: 35,
     duration: 45,
     rating: 4.8,
-    image: '/src/assets/images/classic-cut.jpg'
+    image: require('@/assets/images/classic-cut.jpg')
   },
   {
     id: 2,
@@ -183,7 +183,7 @@ const services = ref([
     price: 25,
     duration: 30,
     rating: 4.9,
-    image: '/src/assets/images/beard.jpg'
+    image: require('@/assets/images/beard.jpg')
   },
   {
     id: 3,
@@ -192,7 +192,7 @@ const services = ref([
     price: 45,
     duration: 60,
     rating: 5.0,
-    image: '/src/assets/images/Hot-Towel-Shave.png'
+    image: require('@/assets/images/Hot-Towel-Shave.png')
   },
   {
     id: 4,
@@ -201,7 +201,7 @@ const services = ref([
     price: 30,
     duration: 40,
     rating: 4.7,
-    image: '/src/assets/images/hairwash.avif'
+    image: require('@/assets/images/hairwash.avif')
   },
   {
     id: 5,
@@ -210,7 +210,7 @@ const services = ref([
     price: 85,
     duration: 90,
     rating: 4.9,
-    image: '/src/assets/images/full-package.jpg'
+    image: require('@/assets/images/full-package.jpg')
   },
   {
     id: 6,
@@ -219,7 +219,7 @@ const services = ref([
     price: 20,
     duration: 30,
     rating: 4.8,
-    image: '/src/assets/images/kids.webp'
+    image: require('@/assets/images/kids.webp')
   }
 ])
 
@@ -229,28 +229,28 @@ const addons = ref([
     name: 'Hair Wash',
     price: 10,
     description: 'Premium shampoo and conditioning treatment',
-    image: '/src/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif'
+    image: require('@/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif')
   },
   {
     id: 2,
     name: 'Scalp Massage',
     price: 15,
     description: 'Relaxing scalp massage with essential oils',
-    image: '/src/assets/images/man-makes-stowage-barbershop_1311477-31668.avif'
+    image: require('@/assets/images/man-makes-stowage-barbershop_1311477-31668.avif')
   },
   {
     id: 3,
     name: 'Eyebrow Trim',
     price: 8,
     description: 'Professional eyebrow shaping and trimming',
-    image: '/src/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif'
+    image: require('@/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif')
   },
   {
     id: 4,
     name: 'Mustache Trim',
     price: 12,
     description: 'Precise mustache trimming and styling',
-    image: '/src/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp'
+    image: require('@/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp')
   }
 ])
 </script>
