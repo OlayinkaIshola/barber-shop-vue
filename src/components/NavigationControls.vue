@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-controls">
+  <div class="nav-controls" ref="navControlsRef">
     <!-- Desktop View - Side by side -->
     <div class="desktop-controls">
       <button @click="goBack" class="control-btn back-btn" title="Go Back">
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme'
 
@@ -43,6 +43,7 @@ const { isDark, themeIcon, toggleTheme } = useTheme()
 
 // Mobile controls state
 const isMobileControlsOpen = ref(false)
+const navControlsRef = ref(null)
 
 // Navigation methods
 const goBack = () => {
@@ -68,6 +69,22 @@ const handleThemeToggle = () => {
   toggleTheme()
   isMobileControlsOpen.value = false
 }
+
+// Click outside to close mobile controls
+const handleClickOutside = (event) => {
+  if (navControlsRef.value && !navControlsRef.value.contains(event.target)) {
+    isMobileControlsOpen.value = false
+  }
+}
+
+// Setup click outside listener
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <style scoped>
