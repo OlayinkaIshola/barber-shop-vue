@@ -8,10 +8,10 @@
           <p>Manage your schedule and clients</p>
         </div>
         <div class="quick-actions">
-          <button class="btn btn-primary">
+          <router-link to="/view-schedule" class="btn btn-primary">
             <i class="fas fa-calendar-check"></i>
             View Schedule
-          </button>
+          </router-link>
           <button @click="logout" class="btn btn-secondary">
             <i class="fas fa-sign-out-alt"></i>
             Logout

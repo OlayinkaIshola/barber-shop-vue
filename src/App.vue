@@ -33,8 +33,8 @@
         <router-link to="/about">About</router-link>
         <router-link to="/contact">Contact</router-link>
         <router-link to="/blog">Blog</router-link>
-        <router-link v-if="isLoggedIn && userRole === 'admin'" to="/admin-dashboard" class="dashboard-link">Admin Dashboard</router-link>
-        <router-link v-if="isLoggedIn && (userRole === 'barber' || userRole === 'employee')" to="/employee-dashboard" class="dashboard-link">Dashboard</router-link>
+        <router-link v-if="isLoggedIn && (userRole === 'admin' || userRole === 'manager')" to="/admin-dashboard" class="dashboard-link">Admin Dashboard</router-link>
+        <router-link v-if="isLoggedIn && (userRole === 'barber' || userRole === 'employee' || userRole === 'manager')" to="/employee-dashboard" class="dashboard-link">Dashboard</router-link>
         <router-link v-if="isLoggedIn" to="/customer-dashboard" class="dashboard-link">My Dashboard</router-link>
         <router-link v-if="isLoggedIn" to="/profile" class="profile-link">Profile</router-link>
         <router-link v-if="!isLoggedIn" to="/register" class="register-link">Register</router-link>
@@ -80,11 +80,11 @@
             <span>Blog</span>
           </router-link>
           <div v-if="isLoggedIn" class="mobile-nav-divider"></div>
-          <router-link v-if="isLoggedIn && userRole === 'admin'" to="/admin-dashboard" @click="closeMobileMenu" class="dashboard-link">
+          <router-link v-if="isLoggedIn && (userRole === 'admin' || userRole === 'manager')" to="/admin-dashboard" @click="closeMobileMenu" class="dashboard-link">
             <i class="fas fa-tachometer-alt"></i>
             <span>Admin Dashboard</span>
           </router-link>
-          <router-link v-if="isLoggedIn && (userRole === 'barber' || userRole === 'employee')" to="/employee-dashboard" @click="closeMobileMenu" class="dashboard-link">
+          <router-link v-if="isLoggedIn && (userRole === 'barber' || userRole === 'employee' || userRole === 'manager')" to="/employee-dashboard" @click="closeMobileMenu" class="dashboard-link">
             <i class="fas fa-briefcase"></i>
             <span>Dashboard</span>
           </router-link>

@@ -108,7 +108,7 @@
       </div>
 
       <div class="login-image">
-        <img src="@/assets/images/AE-Barber-Shop-Baldwin-5.jpg" alt="Professional Barber at Work" />
+        <img :src="require('@/assets/images/AE-Barber-Shop-Baldwin-5.jpg')" alt="Professional Barber at Work" />
         <div class="image-overlay">
           <div class="overlay-content">
             <h2>Professional Portal</h2>
@@ -139,6 +139,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useErrorHandler } from '../composables/useErrorHandler'
+import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
 const { isDark, themeIcon, toggleTheme } = useTheme()

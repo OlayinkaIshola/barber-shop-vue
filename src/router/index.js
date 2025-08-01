@@ -38,7 +38,7 @@ const requireAdmin = (to, from, next) => {
   if (isLoggedIn && userData) {
     try {
       const user = JSON.parse(userData)
-      if (user.role === 'admin') {
+      if (user.role === 'admin' || user.role === 'manager') {
         next()
       } else {
         next('/')
@@ -58,7 +58,7 @@ const requireBarber = (to, from, next) => {
   if (isLoggedIn && userData) {
     try {
       const user = JSON.parse(userData)
-      if (user.role === 'barber' || user.role === 'admin') {
+      if (user.role === 'barber' || user.role === 'admin' || user.role === 'manager') {
         next()
       } else {
         next('/')
@@ -115,7 +115,8 @@ const routes = [
   },
   {
     path: '/view-schedule',
-    component: () => import('../views/ViewSchedule.vue')
+    component: () => import('../views/ViewSchedule.vue'),
+    beforeEnter: requireBarber
   },
   {
     path: '/contact',

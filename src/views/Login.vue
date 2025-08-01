@@ -150,6 +150,7 @@ const loginData = reactive({
 
 const showPassword = ref(false)
 const rememberMe = ref(false)
+const isLoading = ref(false)
 
 // Validation rules
 const validationRules = {
