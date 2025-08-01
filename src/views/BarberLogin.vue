@@ -1,25 +1,5 @@
 <template>
   <div class="barber-login">
-    <!-- Mobile Navigation Icon -->
-    <div class="mobile-nav-icon" @click="toggleMobileNav">
-      <i class="fas fa-bars"></i>
-    </div>
-
-    <!-- Mobile Navigation Dropdown -->
-    <div class="mobile-nav-dropdown" :class="{ 'active': isMobileNavOpen }">
-      <button @click="goBack" class="mobile-nav-btn">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back</span>
-      </button>
-      <button @click="goHome" class="mobile-nav-btn">
-        <i class="fas fa-home"></i>
-        <span>Home</span>
-      </button>
-      <button @click="toggleTheme" class="mobile-nav-btn">
-        <i :class="themeIcon"></i>
-        <span>{{ isDark ? 'Light Mode' : 'Dark Mode' }}</span>
-      </button>
-    </div>
 
     <div class="login-container">
       <div class="login-form">
@@ -155,16 +135,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useErrorHandler } from '../composables/useErrorHandler'
-import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
-
-// Mobile navigation state
-const isMobileNavOpen = ref(false)
 const { isDark, themeIcon, toggleTheme } = useTheme()
 const { 
   errors, 
@@ -200,34 +176,7 @@ const goBack = () => {
 
 const goHome = () => {
   router.push('/')
-  isMobileNavOpen.value = false
 }
-
-// Mobile navigation methods
-const toggleMobileNav = () => {
-  isMobileNavOpen.value = !isMobileNavOpen.value
-}
-
-// Click outside to close mobile nav
-const handleClickOutside = (event) => {
-  const mobileNavIcon = document.querySelector('.mobile-nav-icon')
-  const mobileNavDropdown = document.querySelector('.mobile-nav-dropdown')
-
-  if (mobileNavIcon && mobileNavDropdown &&
-      !mobileNavIcon.contains(event.target) &&
-      !mobileNavDropdown.contains(event.target)) {
-    isMobileNavOpen.value = false
-  }
-}
-
-// Setup click outside listener
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 
 // Validation rules
 const validationRules = {
@@ -527,91 +476,6 @@ const loginAsDemo = async (role) => {
   font-size: 1.3rem;
 }
 
-/* Mobile Navigation Styles */
-.mobile-nav-icon {
-  display: none;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 45px;
-  height: 45px;
-  background: var(--bg-primary);
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 2px 10px var(--shadow-color);
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-}
-
-.mobile-nav-icon:hover {
-  background: var(--accent-primary);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-}
-
-.mobile-nav-dropdown {
-  display: none;
-  position: fixed;
-  top: 75px;
-  left: 20px;
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: var(--spacing-sm);
-  box-shadow: 0 8px 25px var(--shadow-color);
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-
-.mobile-nav-dropdown.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.mobile-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  width: 100%;
-  padding: var(--spacing-sm);
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  margin-bottom: var(--spacing-xs);
-}
-
-.mobile-nav-btn:hover {
-  background: var(--accent-primary);
-  color: white;
-}
-
-.mobile-nav-btn:last-child {
-  margin-bottom: 0;
-}
-
-/* Dark theme adjustments */
-[data-theme="dark"] .mobile-nav-icon {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .mobile-nav-dropdown {
-  background: var(--bg-secondary);
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .login-container {
@@ -620,14 +484,6 @@ const loginAsDemo = async (role) => {
 
   .login-image {
     min-height: 40vh;
-  }
-
-  .mobile-nav-icon {
-    display: flex;
-  }
-
-  .mobile-nav-dropdown {
-    display: block;
   }
 }
 </style>

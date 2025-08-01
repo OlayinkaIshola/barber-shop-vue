@@ -82,6 +82,7 @@ const routes = [
   { path: '/registration-success', component: RegistrationSuccess },
   { path: '/login', component: Login },
   { path: '/barber-login', component: () => import('../views/BarberLogin.vue') },
+  { path: '/manager-login', component: () => import('../views/ManagerLogin.vue') },
   { path: '/barber-dashboard', component: () => import('../views/BarberDashboard.vue'), beforeEnter: requireBarber },
   { path: '/forgot-password', component: ForgotPassword },
   {
@@ -111,6 +112,10 @@ const routes = [
   {
     path: '/blog',
     component: () => import('../views/Blog.vue')
+  },
+  {
+    path: '/view-schedule',
+    component: () => import('../views/ViewSchedule.vue')
   },
   {
     path: '/contact',

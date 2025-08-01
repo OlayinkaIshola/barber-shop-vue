@@ -108,7 +108,7 @@
       </div>
 
       <div class="login-image">
-        <img src="@/assets/images/inside barber shop.jpg" alt="Elite Barber Shop Interior" />
+        <img :src="require('@/assets/images/DiMarcos-Barber-Shop-2.jpg')" alt="Elite Barber Shop Interior" />
         <div class="image-overlay">
           <div class="overlay-content">
             <h2>Elite Barber Shop</h2>

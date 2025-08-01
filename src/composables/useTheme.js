@@ -71,7 +71,7 @@ export function useTheme() {
 
   // Computed properties
   const currentTheme = computed(() => isDark.value ? 'dark' : 'light')
-  const themeIcon = computed(() => isDark.value ? 'fas fa-moon' : 'fas fa-sun')
+  const themeIcon = computed(() => 'fas fa-moon')
 
   // Watch for theme changes and save to localStorage
   watch(isDark, (newValue) => {

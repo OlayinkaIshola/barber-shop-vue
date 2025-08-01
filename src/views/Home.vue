@@ -33,7 +33,7 @@
         </div>
         <div class="hero-image">
           <div class="image-container animated-float">
-            <img src="@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp"
+            <img :src="require('@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp')"
                  alt="Professional Barber Service"
                  loading="lazy"
                  class="animated-image" />

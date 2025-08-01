@@ -7,7 +7,7 @@
         <p>Stay updated with the latest trends, tips, and stories from the world of professional grooming</p>
       </div>
       <div class="hero-image">
-        <img src="@/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif" alt="Professional Barbering" />
+        <img :src="require('@/assets/images/luxury-barbershop-barber-doing-haircuts_943281-45859.avif')" alt="Professional Barbering" />
       </div>
     </section>
 
@@ -16,7 +16,7 @@
       <div class="container">
         <div class="featured-content">
           <div class="featured-image">
-            <img src="@/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif" alt="Featured Post" />
+            <img :src="require('@/assets/images/work-barber-shop-man-hairstylist-hairdresser-cutting-hair-male-client-man-visiting-hairstylist-barbershop-bearded-man-barber-shop_293990-1825.avif')" alt="Featured Post" />
             <div class="featured-badge">Featured</div>
           </div>
           <div class="featured-text">
@@ -148,9 +148,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 // Reactive data
 const activeFilter = ref('All')
@@ -166,32 +163,32 @@ const categories = [
     name: 'Grooming Tips',
     slug: 'grooming-tips',
     description: 'Expert advice for maintaining your best look',
-    image: '@/assets/images/man-makes-stowage-barbershop_1311477-31668.avif',
-    postCount: 12
+    image: require('@/assets/images/man-makes-stowage-barbershop_1311477-31668.avif'),
+    postCount: 15
   },
   {
     id: 2,
     name: 'Style Trends',
     slug: 'style-trends',
     description: 'Latest trends in men\'s hairstyles and fashion',
-    image: '@/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp',
-    postCount: 8
+    image: require('@/assets/images/happy-young-man-getting-haircut-professional-barber-barbershop-127675790.webp'),
+    postCount: 12
   },
   {
     id: 3,
     name: 'Barbershop Life',
     slug: 'barbershop-life',
     description: 'Behind the scenes stories and experiences',
-    image: '@/assets/images/DiMarcos-Barber-Shop-2.jpg',
-    postCount: 15
+    image: require('@/assets/images/DiMarcos-Barber-Shop-2.jpg'),
+    postCount: 18
   },
   {
     id: 4,
     name: 'Product Reviews',
     slug: 'product-reviews',
     description: 'Honest reviews of grooming products and tools',
-    image: '@/assets/images/71JQQddna0L._AC_SL1500_.jpg',
-    postCount: 6
+    image: require('@/assets/images/71JQQddna0L._AC_SL1500_.jpg'),
+    postCount: 9
   }
 ]
 
@@ -201,7 +198,7 @@ const posts = ref([
     title: 'The Perfect Beard Trim: A Step-by-Step Guide',
     slug: 'perfect-beard-trim-guide',
     excerpt: 'Learn the professional techniques for achieving the perfect beard trim that complements your face shape and personal style.',
-    image: '@/assets/images/pexels-thgusstavo-santana-2076932-683x1024.jpg',
+    image: require('@/assets/images/pexels-thgusstavo-santana-2076932-683x1024.jpg'),
     category: 'Grooming Tips',
     author: 'Marcus Johnson',
     date: new Date('2024-01-15'),
@@ -213,7 +210,7 @@ const posts = ref([
     title: 'Top 5 Hairstyles for 2024: What\'s Trending Now',
     slug: 'top-hairstyles-2024',
     excerpt: 'Discover the most popular men\'s hairstyles this year and find the perfect cut that suits your lifestyle and personality.',
-    image: '@/assets/images/Vs-Barbershop-Hoboken-2.jpg',
+    image: require('@/assets/images/Vs-Barbershop-Hoboken-2.jpg'),
     category: 'Style Trends',
     author: 'David Rodriguez',
     date: new Date('2024-01-10'),
@@ -225,7 +222,7 @@ const posts = ref([
     title: 'The History of Barbershops: From Ancient Times to Modern Day',
     slug: 'history-of-barbershops',
     excerpt: 'Take a journey through time and explore how barbershops have evolved from ancient civilizations to today\'s modern establishments.',
-    image: '@/assets/images/Pennsport-Barber-Shop-1.jpg',
+    image: require('@/assets/images/Pennsport-Barber-Shop-1.jpg'),
     category: 'Barbershop Life',
     author: 'Sarah Thompson',
     date: new Date('2024-01-05'),
@@ -237,7 +234,7 @@ const posts = ref([
     title: 'Best Hair Products for Different Hair Types',
     slug: 'best-hair-products-guide',
     excerpt: 'Find the right hair products for your specific hair type and learn how to use them effectively for optimal results.',
-    image: '@/assets/images/348s.jpg',
+    image: require('@/assets/images/348s.jpg'),
     category: 'Product Reviews',
     author: 'Mike Chen',
     date: new Date('2024-01-01'),
@@ -249,7 +246,7 @@ const posts = ref([
     title: 'Maintaining Your Haircut: Tips for Longer-Lasting Style',
     slug: 'maintaining-haircut-tips',
     excerpt: 'Extend the life of your haircut with these professional tips and tricks that will keep you looking sharp between visits.',
-    image: '@/assets/images/corner-barber-shop.jpg',
+    image: require('@/assets/images/corner-barber-shop.jpg'),
     category: 'Grooming Tips',
     author: 'James Wilson',
     date: new Date('2023-12-28'),
@@ -261,12 +258,84 @@ const posts = ref([
     title: 'The Art of the Straight Razor Shave',
     slug: 'straight-razor-shave-art',
     excerpt: 'Experience the luxury and precision of a traditional straight razor shave and learn why this classic technique remains unmatched.',
-    image: '@/assets/images/10th-Ward-Barbershop-Pittsburgh-5.jpg',
+    image: require('@/assets/images/10th-Ward-Barbershop-Pittsburgh-5.jpg'),
     category: 'Barbershop Life',
     author: 'Antonio Garcia',
     date: new Date('2023-12-25'),
     readTime: 8,
     tags: ['Shaving', 'Traditional', 'Luxury']
+  },
+  {
+    id: 7,
+    title: 'Modern Barbershop Design: Creating the Perfect Atmosphere',
+    slug: 'modern-barbershop-design',
+    excerpt: 'Explore how contemporary barbershop design combines classic elements with modern aesthetics to create welcoming spaces.',
+    image: require('@/assets/images/DiMarcos-Barber-Shop-2.jpg'),
+    category: 'Barbershop Life',
+    author: 'Elena Rodriguez',
+    date: new Date('2023-12-20'),
+    readTime: 6,
+    tags: ['Design', 'Interior', 'Atmosphere']
+  },
+  {
+    id: 8,
+    title: 'Professional Barber Tools: A Complete Guide',
+    slug: 'professional-barber-tools-guide',
+    excerpt: 'Discover the essential tools every professional barber needs and learn how to choose quality equipment that lasts.',
+    image: require('@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp'),
+    category: 'Product Reviews',
+    author: 'Marcus Johnson',
+    date: new Date('2023-12-15'),
+    readTime: 9,
+    tags: ['Tools', 'Equipment', 'Professional']
+  },
+  {
+    id: 9,
+    title: 'Classic Pompadour: How to Style and Maintain',
+    slug: 'classic-pompadour-styling',
+    excerpt: 'Master the timeless pompadour hairstyle with our comprehensive guide to styling, products, and maintenance techniques.',
+    image: require('@/assets/images/34428106.jpg'),
+    category: 'Style Trends',
+    author: 'David Rodriguez',
+    date: new Date('2023-12-10'),
+    readTime: 7,
+    tags: ['Pompadour', 'Classic', 'Styling']
+  },
+  {
+    id: 10,
+    title: 'Seasonal Hair Care: Adapting Your Routine',
+    slug: 'seasonal-hair-care-routine',
+    excerpt: 'Learn how to adjust your hair care routine throughout the year to maintain healthy, great-looking hair in any weather.',
+    image: require('@/assets/images/37603.jpg'),
+    category: 'Grooming Tips',
+    author: 'Anthony Williams',
+    date: new Date('2023-12-05'),
+    readTime: 5,
+    tags: ['Seasonal', 'Hair Care', 'Routine']
+  },
+  {
+    id: 11,
+    title: 'The Gentleman\'s Guide to Mustache Styles',
+    slug: 'gentlemans-mustache-styles',
+    excerpt: 'Explore different mustache styles and find the perfect one for your face shape and personal style preferences.',
+    image: require('@/assets/images/900.jpg'),
+    category: 'Style Trends',
+    author: 'James Thompson',
+    date: new Date('2023-11-30'),
+    readTime: 6,
+    tags: ['Mustache', 'Facial Hair', 'Styles']
+  },
+  {
+    id: 12,
+    title: 'Building Client Relationships in the Barbershop',
+    slug: 'building-client-relationships',
+    excerpt: 'Discover the secrets to building lasting relationships with clients and creating a loyal customer base in your barbershop.',
+    image: require('@/assets/images/DiMarcos-Barber-Shop-2.jpg'),
+    category: 'Barbershop Life',
+    author: 'Sarah Thompson',
+    date: new Date('2023-11-25'),
+    readTime: 8,
+    tags: ['Client Relations', 'Business', 'Customer Service']
   }
 ])
 

@@ -83,7 +83,7 @@
           </div>
           <div class="value-card">
             <div class="value-image">
-              <img :src="require('@/assets/images/inside barber shop.jpg')" alt="Integrity and Trust" />
+              <img :src="require('@/assets/images/DiMarcos-Barber-Shop-2.jpg')" alt="Integrity and Trust" />
               <div class="value-icon">
                 <i class="fas fa-handshake"></i>
               </div>

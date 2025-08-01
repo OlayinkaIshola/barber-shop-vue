@@ -11,11 +11,10 @@
         </button>
         <div class="nav-brand">
           <div class="logo-container">
-            <img src="@/assets/images/inside barber shop.jpg" alt="Elite Barber Shop" class="nav-logo" />
+            <img :src="require('@/assets/images/DiMarcos-Barber-Shop-2.jpg')" alt="Elite Barber Shop" class="nav-logo" />
           </div>
           <h2 class="brand-text">
             <span class="typing-text" ref="typingText"></span>
-            <span class="cursor" :class="{ 'blink': showCursor }">|</span>
           </h2>
         </div>
       </div>
@@ -51,7 +50,7 @@
       <div class="mobile-nav-menu" :class="{ 'active': isMobileMenuOpen }">
         <div class="mobile-nav-header">
           <div class="mobile-brand">
-            <img src="@/assets/images/inside barber shop.jpg" alt="Elite Barber Shop" class="mobile-logo" />
+            <img :src="require('@/assets/images/DiMarcos-Barber-Shop-2.jpg')" alt="Elite Barber Shop" class="mobile-logo" />
             <span class="mobile-brand-text">Elite Barber Shop</span>
           </div>
         </div>
@@ -128,6 +127,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTheme } from './composables/useTheme'
+import ErrorBoundary from './components/ErrorBoundary.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -157,7 +157,6 @@ const closeMobileMenu = () => {
 
 // Typing animation
 const typingText = ref(null)
-const showCursor = ref(true)
 const currentText = ref('')
 const isTyping = ref(true)
 const typingSpeed = 100
@@ -201,11 +200,6 @@ const typeText = () => {
 
 const startTypingAnimation = () => {
   typeText()
-
-  // Cursor blinking
-  setInterval(() => {
-    showCursor.value = !showCursor.value
-  }, 500)
 }
 
 // Pages where navigation should be hidden
@@ -342,17 +336,7 @@ onUnmounted(() => {
   min-width: 200px;
 }
 
-.cursor {
-  color: var(--accent-primary);
-  font-weight: 400;
-  margin-left: 2px;
-  opacity: 1;
-  transition: opacity 0.1s ease;
-}
 
-.cursor.blink {
-  opacity: 0;
-}
 
 .nav-links {
   display: flex;
