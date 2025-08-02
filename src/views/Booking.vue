@@ -34,8 +34,35 @@
             </div>
           </div>
 
-          <!-- Step 2: Stylist Selection -->
+          <!-- Step 2: Additional Services (Optional) -->
           <div class="form-step" v-show="currentStep === 2">
+            <h2>Additional Services <span class="optional-label">(Optional)</span></h2>
+            <p class="step-description">Enhance your experience with these optional add-ons</p>
+            <div class="additional-services">
+              <div
+                class="service-addon"
+                v-for="addon in additionalServices"
+                :key="addon.id"
+                :class="{ active: selectedAddons.includes(addon.id) }"
+                @click="toggleAddon(addon.id)"
+              >
+                <div class="addon-checkbox">
+                  <i class="fas fa-check" v-if="selectedAddons.includes(addon.id)"></i>
+                </div>
+                <div class="addon-info">
+                  <h3>{{ addon.name }}</h3>
+                  <p>{{ addon.description }}</p>
+                  <div class="addon-details">
+                    <span class="price">+${{ addon.price }}</span>
+                    <span class="duration">{{ addon.duration }} min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Stylist Selection -->
+          <div class="form-step" v-show="currentStep === 3">
             <h2>Choose Your Stylist</h2>
             <div class="stylist-options">
               <div 
@@ -58,8 +85,8 @@
             </div>
           </div>
 
-          <!-- Step 3: Date & Time Selection -->
-          <div class="form-step" v-show="currentStep === 3">
+          <!-- Step 4: Date & Time Selection -->
+          <div class="form-step" v-show="currentStep === 4">
             <h2>Select Date & Time</h2>
             <div class="datetime-selection">
               <div class="date-picker">
@@ -89,8 +116,8 @@
             </div>
           </div>
 
-          <!-- Step 4: Contact Information -->
-          <div class="form-step" v-show="currentStep === 4">
+          <!-- Step 5: Contact Information -->
+          <div class="form-step" v-show="currentStep === 5">
             <h2>Your Information</h2>
             <div class="contact-form">
               <div class="form-group">
@@ -173,6 +200,14 @@
             <span>Service:</span>
             <span>{{ selectedService.name }}</span>
           </div>
+          <div class="summary-item" v-if="selectedAddons.length > 0">
+            <span>Add-ons:</span>
+            <div class="addons-list">
+              <div v-for="addonId in selectedAddons" :key="addonId" class="addon-item">
+                {{ getAddonById(addonId)?.name }} (+${{ getAddonById(addonId)?.price }})
+              </div>
+            </div>
+          </div>
           <div class="summary-item" v-if="selectedStylist">
             <span>Stylist:</span>
             <span>{{ selectedStylist.name }}</span>
@@ -187,7 +222,7 @@
           </div>
           <div class="summary-total" v-if="selectedService">
             <span>Total:</span>
-            <span>${{ selectedService.price }}</span>
+            <span>${{ calculateTotal() }}</span>
           </div>
         </div>
       </div>
@@ -204,6 +239,7 @@ const router = useRouter()
 
 const currentStep = ref(1)
 const selectedService = ref(null)
+const selectedAddons = ref([])
 const selectedStylist = ref(null)
 const selectedDate = ref('')
 const selectedTime = ref('')
@@ -221,10 +257,20 @@ const services = ref([
   { id: 4, name: 'Full Service Package', description: 'Complete grooming experience', price: 85, duration: 90 }
 ])
 
+const additionalServices = ref([
+  { id: 1, name: 'Hair Wash & Conditioning', description: 'Premium shampoo and conditioning treatment', price: 15, duration: 15 },
+  { id: 2, name: 'Scalp Massage', description: 'Relaxing scalp massage with essential oils', price: 20, duration: 10 },
+  { id: 3, name: 'Eyebrow Trim', description: 'Professional eyebrow shaping and trimming', price: 12, duration: 10 },
+  { id: 4, name: 'Nose/Ear Hair Trim', description: 'Clean up nose and ear hair for a polished look', price: 8, duration: 5 },
+  { id: 5, name: 'Face Moisturizer', description: 'Premium moisturizer application', price: 10, duration: 5 },
+  { id: 6, name: 'Cologne Application', description: 'Signature cologne application', price: 5, duration: 2 }
+])
+
 const stylists = ref([
-  { id: 1, name: 'Marcus Johnson', title: 'Master Barber', rating: 4.9, image: '/src/assets/images/34428106.jpg' },
-  { id: 2, name: 'David Rodriguez', title: 'Senior Stylist', rating: 4.8, image: '/src/assets/images/37603.jpg' },
-  { id: 3, name: 'Anthony Williams', title: 'Style Specialist', rating: 4.7, image: '/src/assets/images/900.jpg' }
+  { id: 1, name: 'Marcus Johnson', title: 'Master Barber', rating: 4.9, image: require('@/assets/images/34428106.jpg') },
+  { id: 2, name: 'David Rodriguez', title: 'Senior Stylist', rating: 4.8, image: require('@/assets/images/37603.jpg') },
+  { id: 3, name: 'Anthony Williams', title: 'Style Specialist', rating: 4.7, image: require('@/assets/images/900.jpg') },
+  { id: 4, name: 'James Thompson', title: 'Professional Barber', rating: 4.6, image: require('@/assets/images/barber-work-side-view-young-bearded-men-getting-haircut-hairdresser-sitting-chair-barbershop-70127409.webp') }
 ])
 
 const availableTimes = ref([
@@ -240,8 +286,9 @@ const minDate = computed(() => {
 const canProceed = computed(() => {
   switch (currentStep.value) {
     case 1: return selectedService.value !== null
-    case 2: return selectedStylist.value !== null
-    case 3: return selectedDate.value && selectedTime.value
+    case 2: return true // Additional services are optional
+    case 3: return selectedStylist.value !== null
+    case 4: return selectedDate.value && selectedTime.value
     default: return false
   }
 })
@@ -260,6 +307,15 @@ const selectService = (service) => {
   selectedService.value = service
 }
 
+const toggleAddon = (addonId) => {
+  const index = selectedAddons.value.indexOf(addonId)
+  if (index > -1) {
+    selectedAddons.value.splice(index, 1)
+  } else {
+    selectedAddons.value.push(addonId)
+  }
+}
+
 const selectStylist = (stylist) => {
   selectedStylist.value = stylist
 }
@@ -269,7 +325,7 @@ const selectTime = (time) => {
 }
 
 const nextStep = () => {
-  if (canProceed.value && currentStep.value < 4) {
+  if (canProceed.value && currentStep.value < 5) {
     currentStep.value++
   }
 }
@@ -280,24 +336,42 @@ const previousStep = () => {
   }
 }
 
+const getAddonById = (id) => {
+  return additionalServices.value.find(addon => addon.id === id)
+}
+
+const calculateTotal = () => {
+  let total = selectedService.value ? selectedService.value.price : 0
+  selectedAddons.value.forEach(addonId => {
+    const addon = getAddonById(addonId)
+    if (addon) {
+      total += addon.price
+    }
+  })
+  return total
+}
+
 const formatDate = (dateString) => {
   const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   })
 }
 
 const handleBooking = () => {
   // Frontend-only booking simulation
+  const selectedAddonsData = selectedAddons.value.map(id => getAddonById(id))
   const bookingData = {
     service: selectedService.value,
+    additionalServices: selectedAddonsData,
     stylist: selectedStylist.value,
     date: selectedDate.value,
     time: selectedTime.value,
     customer: customerInfo.value,
+    total: calculateTotal(),
     bookingId: 'BK' + Date.now()
   }
   
@@ -496,6 +570,110 @@ onMounted(() => {
   margin-top: var(--spacing-lg);
   padding-top: var(--spacing-lg);
   border-top: 2px solid var(--accent-primary);
+}
+
+/* Additional Services Styles */
+.optional-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+.step-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.additional-services {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.service-addon {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: var(--card-bg);
+}
+
+.service-addon:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-addon.active {
+  border-color: var(--accent-primary);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.addon-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.service-addon.active .addon-checkbox {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.addon-info {
+  flex: 1;
+}
+
+.addon-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.addon-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.addon-details {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.addon-details .price {
+  color: var(--accent-primary);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.addon-details .duration {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.addons-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.addon-item {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
 /* Responsive Design */

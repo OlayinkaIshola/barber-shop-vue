@@ -37,8 +37,42 @@
             </div>
           </div>
 
-          <form @submit.prevent="handlePayment">
-            <h3>Payment Information</h3>
+          <!-- Payment Method Selection -->
+          <div class="payment-method-selection">
+            <h3>Choose Payment Method</h3>
+            <div class="payment-methods">
+              <div
+                class="payment-method"
+                :class="{ active: selectedPaymentMethod === 'card' }"
+                @click="selectedPaymentMethod = 'card'"
+              >
+                <div class="method-icon">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="method-info">
+                  <h4>Credit/Debit Card</h4>
+                  <p>Pay securely with your card</p>
+                </div>
+              </div>
+              <div
+                class="payment-method"
+                :class="{ active: selectedPaymentMethod === 'transfer' }"
+                @click="selectedPaymentMethod = 'transfer'"
+              >
+                <div class="method-icon">
+                  <i class="fas fa-university"></i>
+                </div>
+                <div class="method-info">
+                  <h4>Bank Transfer</h4>
+                  <p>Direct bank transfer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Payment Form -->
+          <form v-if="selectedPaymentMethod === 'card'" @submit.prevent="handlePayment">
+            <h3>Card Payment Information</h3>
             
             <div class="form-group">
               <label class="form-label">Card Number</label>
@@ -90,23 +124,72 @@
               />
             </div>
 
-            <div class="payment-methods">
+            <div class="accepted-cards">
               <h4>We Accept:</h4>
               <div class="payment-icons">
-                <i class="fab fa-cc-visa"></i>
-                <i class="fab fa-cc-mastercard"></i>
-                <i class="fab fa-cc-amex"></i>
-                <i class="fab fa-cc-discover"></i>
+                <i class="fab fa-cc-visa visa-color"></i>
+                <i class="fab fa-cc-mastercard mastercard-color"></i>
+                <i class="fab fa-cc-amex amex-color"></i>
+                <i class="fab fa-cc-discover discover-color"></i>
               </div>
             </div>
 
             <button type="submit" class="btn btn-primary payment-btn" :disabled="isProcessing">
-              <span v-if="!isProcessing">Pay ${{ bookingData?.service?.price }}</span>
+              <span v-if="!isProcessing">Pay ${{ bookingData?.total || bookingData?.service?.price }}</span>
               <span v-else>Processing Payment...</span>
               <i class="fas fa-credit-card" v-if="!isProcessing"></i>
               <i class="fas fa-spinner fa-spin" v-else></i>
             </button>
           </form>
+
+          <!-- Bank Transfer Form -->
+          <div v-if="selectedPaymentMethod === 'transfer'" class="transfer-form">
+            <h3>Bank Transfer Information</h3>
+            <div class="transfer-details">
+              <div class="bank-info">
+                <h4>Transfer to:</h4>
+                <div class="bank-details">
+                  <div class="detail-item">
+                    <span class="label">Bank Name:</span>
+                    <span class="value">Elite Bank</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="label">Account Name:</span>
+                    <span class="value">Elite Barber Shop LLC</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="label">Account Number:</span>
+                    <span class="value">1234567890</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="label">Routing Number:</span>
+                    <span class="value">987654321</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="label">Amount:</span>
+                    <span class="value amount">${{ bookingData?.total || bookingData?.service?.price }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="transfer-instructions">
+                <h4>Instructions:</h4>
+                <ol>
+                  <li>Use the booking ID <strong>{{ bookingData?.bookingId }}</strong> as the transfer reference</li>
+                  <li>Complete the transfer within 24 hours to secure your appointment</li>
+                  <li>Send a screenshot of the transfer confirmation to confirm@elitebarbershop.com</li>
+                  <li>We'll confirm your appointment once payment is verified</li>
+                </ol>
+              </div>
+            </div>
+
+            <button @click="handleTransferConfirmation" class="btn btn-primary payment-btn" :disabled="isProcessing">
+              <span v-if="!isProcessing">I've Completed the Transfer</span>
+              <span v-else>Processing...</span>
+              <i class="fas fa-university" v-if="!isProcessing"></i>
+              <i class="fas fa-spinner fa-spin" v-else></i>
+            </button>
+          </div>
 
           <div class="security-info">
             <i class="fas fa-shield-alt"></i>
@@ -127,6 +210,7 @@ const router = useRouter()
 
 const bookingData = ref(null)
 const isProcessing = ref(false)
+const selectedPaymentMethod = ref('card')
 
 const paymentData = ref({
   cardNumber: '',
@@ -178,6 +262,29 @@ const handlePayment = async () => {
   
   isProcessing.value = false
   
+  // Redirect to success page
+  router.push('/payment-success')
+}
+
+const handleTransferConfirmation = async () => {
+  isProcessing.value = true
+
+  // Simulate processing delay
+  await new Promise(resolve => setTimeout(resolve, 1500))
+
+  // Store payment confirmation for bank transfer
+  const paymentConfirmation = {
+    ...bookingData.value,
+    paymentId: 'TRANSFER' + Date.now(),
+    paymentDate: new Date().toISOString(),
+    paymentMethod: 'bank_transfer',
+    status: 'pending_verification'
+  }
+
+  localStorage.setItem('paymentConfirmation', JSON.stringify(paymentConfirmation))
+
+  isProcessing.value = false
+
   // Redirect to success page
   router.push('/payment-success')
 }
@@ -294,9 +401,161 @@ onMounted(() => {
   gap: var(--spacing-lg);
 }
 
+/* Payment Method Selection */
+.payment-method-selection {
+  margin-bottom: var(--spacing-xl);
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: var(--card-bg);
+}
+
+.payment-method:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method.active {
+  border-color: var(--accent-primary);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.method-icon {
+  font-size: 2rem;
+  color: var(--accent-primary);
+}
+
+.method-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.method-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Payment Icons with Brand Colors */
 .payment-icons i {
   font-size: 2rem;
+}
+
+/* Brand Colors for Payment Icons */
+.visa-color {
+  color: #1A1F71;
+}
+
+.mastercard-color {
+  color: #EB001B;
+}
+
+.amex-color {
+  color: #006FCF;
+}
+
+.discover-color {
+  color: #FF6000;
+}
+
+/* Bank Transfer Styles */
+.transfer-form {
+  background: var(--card-bg);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+.transfer-details {
+  margin-bottom: var(--spacing-xl);
+}
+
+.bank-info {
+  margin-bottom: var(--spacing-xl);
+}
+
+.bank-info h4 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  font-size: 1.2rem;
+}
+
+.bank-details {
+  background: var(--bg-secondary);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item .label {
   color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.detail-item .value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.detail-item .amount {
+  color: var(--accent-primary);
+  font-size: 1.1rem;
+}
+
+.transfer-instructions {
+  background: rgba(212, 175, 55, 0.1);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--accent-primary);
+}
+
+.transfer-instructions h4 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.transfer-instructions ol {
+  color: var(--text-secondary);
+  padding-left: var(--spacing-lg);
+}
+
+.transfer-instructions li {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.transfer-instructions strong {
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
 .payment-btn {

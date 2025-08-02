@@ -1,5 +1,6 @@
 <template>
   <div class="barber-login">
+    <NavigationControls />
 
     <div class="login-container">
       <div class="login-form">
@@ -140,6 +141,7 @@ import { useRouter } from 'vue-router'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useErrorHandler } from '../composables/useErrorHandler'
 import { useTheme } from '../composables/useTheme'
+import NavigationControls from '@/components/NavigationControls.vue'
 
 const router = useRouter()
 const { isDark, themeIcon, toggleTheme } = useTheme()
@@ -285,6 +287,14 @@ const loginAsDemo = async (role) => {
     router.push('/admin-dashboard')
   } else {
     router.push('/employee-dashboard')
+  }
+}
+</script>
+
+<script>
+export default {
+  components: {
+    NavigationControls
   }
 }
 </script>

@@ -28,17 +28,17 @@
       <!-- Desktop Navigation -->
       <div class="nav-links desktop-nav">
         <router-link to="/">Home</router-link>
-        <router-link to="/services">Services</router-link>
-        <router-link to="/stylists">Our Team</router-link>
-        <router-link to="/about">About</router-link>
+        <router-link v-if="!isDashboardPage" to="/services">Services</router-link>
+        <router-link v-if="!isDashboardPage" to="/stylists">Our Team</router-link>
+        <router-link v-if="!isDashboardPage" to="/about">About</router-link>
         <router-link to="/contact">Contact</router-link>
         <router-link to="/blog">Blog</router-link>
         <router-link v-if="isLoggedIn && (userRole === 'admin' || userRole === 'manager')" to="/admin-dashboard" class="dashboard-link">Admin Dashboard</router-link>
         <router-link v-if="isLoggedIn && (userRole === 'barber' || userRole === 'employee' || userRole === 'manager')" to="/employee-dashboard" class="dashboard-link">Dashboard</router-link>
         <router-link v-if="isLoggedIn" to="/customer-dashboard" class="dashboard-link">My Dashboard</router-link>
         <router-link v-if="isLoggedIn" to="/profile" class="profile-link">Profile</router-link>
-        <router-link v-if="!isLoggedIn" to="/register" class="register-link">Register</router-link>
-        <router-link v-if="!isLoggedIn" to="/login" class="login-link">Login</router-link>
+        <router-link v-if="!isLoggedIn && !isDashboardPage" to="/register" class="register-link">Register</router-link>
+        <router-link v-if="!isLoggedIn && !isDashboardPage" to="/login" class="login-link">Login</router-link>
         <button v-if="isLoggedIn" @click="logout" class="logout-btn">Logout</button>
         <button @click="toggleTheme" class="theme-toggle-btn" :title="`Switch to ${isDark ? 'light' : 'dark'} mode`">
           <i :class="themeIcon"></i>
@@ -59,15 +59,15 @@
             <i class="fas fa-home"></i>
             <span>Home</span>
           </router-link>
-          <router-link to="/services" @click="closeMobileMenu">
+          <router-link v-if="!isDashboardPage" to="/services" @click="closeMobileMenu">
             <i class="fas fa-cut"></i>
             <span>Services</span>
           </router-link>
-          <router-link to="/stylists" @click="closeMobileMenu">
+          <router-link v-if="!isDashboardPage" to="/stylists" @click="closeMobileMenu">
             <i class="fas fa-users"></i>
             <span>Our Team</span>
           </router-link>
-          <router-link to="/about" @click="closeMobileMenu">
+          <router-link v-if="!isDashboardPage" to="/about" @click="closeMobileMenu">
             <i class="fas fa-info-circle"></i>
             <span>About</span>
           </router-link>
@@ -97,11 +97,11 @@
             <span>Profile</span>
           </router-link>
           <div v-if="!isLoggedIn" class="mobile-nav-divider"></div>
-          <router-link v-if="!isLoggedIn" to="/register" @click="closeMobileMenu" class="register-link">
+          <router-link v-if="!isLoggedIn && !isDashboardPage" to="/register" @click="closeMobileMenu" class="register-link">
             <i class="fas fa-user-plus"></i>
             <span>Register</span>
           </router-link>
-          <router-link v-if="!isLoggedIn" to="/login" @click="closeMobileMenu" class="login-link">
+          <router-link v-if="!isLoggedIn && !isDashboardPage" to="/login" @click="closeMobileMenu" class="login-link">
             <i class="fas fa-sign-in-alt"></i>
             <span>Login</span>
           </router-link>
@@ -203,7 +203,7 @@ const startTypingAnimation = () => {
 }
 
 // Pages where navigation should be hidden
-const hiddenNavPages = ['/booking', '/payment', '/payment-success', '/register', '/registration-success', '/login', '/forgot-password']
+const hiddenNavPages = ['/booking', '/payment', '/payment-success', '/register', '/registration-success', '/login', '/forgot-password', '/barber-login']
 
 // Check login status (frontend only - using localStorage)
 const checkLoginStatus = () => {
@@ -237,6 +237,10 @@ const logout = () => {
 
 const showNavigation = computed(() => {
   return !hiddenNavPages.includes(route.path)
+})
+
+const isDashboardPage = computed(() => {
+  return route.path.includes('-dashboard')
 })
 
 const showBackButton = computed(() => {

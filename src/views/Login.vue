@@ -125,9 +125,11 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useErrorHandler } from '../composables/useErrorHandler'
+import { useToast } from 'vue-toastification'
 import NavigationControls from '../components/NavigationControls.vue'
 
 const router = useRouter()
+const toast = useToast()
 const {
   errors,
   touched,
@@ -142,6 +144,23 @@ const {
 } = useFormValidation()
 
 const { showSuccessToast, showErrorToast } = useErrorHandler()
+
+const showSuccessToast = (message) => {
+  toast.success(message, {
+    position: 'top-right',
+    timeout: 3000,
+    closeOnClick: true,
+    pauseOnFocusLoss: true,
+    pauseOnHover: true,
+    draggable: true,
+    draggablePercent: 0.6,
+    showCloseButtonOnHover: false,
+    hideProgressBar: false,
+    closeButton: 'button',
+    icon: true,
+    rtl: false
+  })
+}
 
 const loginData = reactive({
   email: '',
@@ -237,7 +256,10 @@ const loginAsDemo = async (role) => {
   localStorage.setItem('token', 'demo-token-' + Date.now())
   
   isLoading.value = false
-  
+
+  // Show success message
+  showSuccessToast(`Login successful! Welcome back, ${userData.name}.`)
+
   // Redirect based on role
   if (role === 'admin') {
     router.push('/admin-dashboard')
